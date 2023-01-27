@@ -1,30 +1,41 @@
 import React from 'react';
 import styled from 'styled-components';
 import Item from './Item';
-
-const List = styled.div`
-  background-color: white;
+const Table = styled.div`
+  background: white;
   border-radius: 10px;
-  display: flex;
   box-shadow: 4px 4px 4px #a4a4a4;
-  padding: 2vh 2vh 2vh 2vh;
+  padding: 2vh;
+
+`;
+
+const TableRow = styled.div`
+  display:flex;
+ `;
+
+const TableHeader = styled.div` 
+  float:left;
+  width: ${(props) => props.width};
+  font-weight: bold;
+  padding-bottom: 1.5vh;
+  border-bottom-width: 1px;
+  border-bottom-color: lightgray;
+  border-bottom-style: solid;
+
 `;
 
 export default function ItemList() {
+  
   return (
     <>
-      <List>
-        <table>
-          <thead>
-            <th>요일</th>
-            <th>항목</th>
-            <th>금액</th>
-          </thead>
-          <tbody>
-            <Item />
-          </tbody>
-        </table>
-      </List>
+      <Table>
+        <TableRow>
+          <TableHeader width="20%">요일</TableHeader>
+          <TableHeader width="50%">항목</TableHeader>
+          <TableHeader width="30%">금액</TableHeader>
+        </TableRow>
+       <Item/>
+      </Table>
     </>
   );
 }

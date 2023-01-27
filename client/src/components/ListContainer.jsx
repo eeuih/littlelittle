@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import Goal from './Goal';
+import Input from './Input';
 import ItemList from './ItemList';
+import Select from './Select';
 
 const BackGround = styled.div`
   width: 80vw;
@@ -10,16 +12,23 @@ const BackGround = styled.div`
 
 const ServiceName = styled.h1`
   color: white;
-  padding-top: 7vh;
+  padding-top: 5vh;
+  padding-bottom: 2.5vh;
 `;
+
+
 
 export default function ListContainer() {
   return (
     <>
       <BackGround>
         <ServiceName>Little Little, 티끌 모아 태산</ServiceName>
-        <Goal />
-        <ItemList />
+        <Goal/>
+        <div style = {{display:'flex'}}>
+          <Select/>
+          <Input/>
+        </div>
+        <ItemList/>
       </BackGround>
     </>
   );
