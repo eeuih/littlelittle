@@ -16,19 +16,17 @@ const ServiceName = styled.h1`
   padding-bottom: 2.5vh;
 `;
 
-
-
 export default function ListContainer() {
   return (
     <>
       <BackGround>
         <ServiceName>Little Little, 티끌 모아 태산</ServiceName>
-        <Goal/>
-        <div style = {{display:'flex'}}>
-          <Select/>
-          <Input/>
+        <Goal />
+        <div style={{ display: 'flex' }}>
+          <Select />
+          <Input />
         </div>
-        <ItemList/>
+        <ItemList />
       </BackGround>
     </>
   );

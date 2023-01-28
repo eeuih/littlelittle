@@ -1,13 +1,14 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const TableRow = styled.div`
-  display:flex;
- `;
+  display: flex;
+`;
 
-const TableCell= styled.div`
+const TableCell = styled.div`
   width: ${(props) => props.width};
-  float:left;
+  float: left;
   padding-top: 1.5vh;
   padding-bottom: 1.5vh;
   border-bottom-width: 1px;
@@ -15,22 +16,38 @@ const TableCell= styled.div`
   border-bottom-style: dotted;
 `;
 
-const weekday = new Array('일', '월', '화', '수', '목', '금', '토');
-
 export default function Item() {
+  const list = useSelector((state) => state.create.list);
+  console.log(list);
+
   return (
     <>
-    {weekday.map((el, index) => {
-      return (
-      <TableRow>
-        <TableCell width="20%" key={index}><p>{el}</p></TableCell>
-        <TableCell width="50%">
-        </TableCell>
-        <TableCell width="30%">
-        </TableCell>
-      </TableRow>
-      );}
-    )}
+      {list.map((el) => {
+        return (
+          <TableRow key={el.id}>
+            <TableCell width="20%">{el.day}</TableCell>
+
+            <TableCell key={el.no} width="50%">
+              {el.detail.map((el) => {
+                return (
+                  <ul>
+                    <li>{el.item}</li>
+                  </ul>
+                );
+              })}
+            </TableCell>
+            <TableCell key={el.no} width="30%">
+              {el.detail.map((el) => {
+                return (
+                  <ul>
+                    <li>{el.price}</li>
+                  </ul>
+                );
+              })}
+            </TableCell>
+          </TableRow>
+        );
+      })}
     </>
   );
 }
