@@ -4,8 +4,9 @@ import Item from './Item';
 const Table = styled.div`
   background: white;
   border-radius: 10px;
-  box-shadow: 4px 4px 4px #a4a4a4;
+  box-shadow: 6px 6px rgba(30, 30, 30, 0.4);
   padding: 2vh;
+  margin-bottom: 2vh;
 `;
 
 const TableRow = styled.div`
@@ -27,9 +28,10 @@ export default function ItemList() {
     <>
       <Table>
         <TableRow>
-          <TableHeader width="20%">요일</TableHeader>
-          <TableHeader width="50%">항목</TableHeader>
+          <TableHeader width="15%">요일</TableHeader>
+          <TableHeader width="40%">항목</TableHeader>
           <TableHeader width="30%">금액</TableHeader>
+          <TableHeader width="15%"></TableHeader>
         </TableRow>
         <Item />
       </Table>

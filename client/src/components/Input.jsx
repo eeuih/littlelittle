@@ -1,7 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { createItem } from '../store/modules/create';
+import { createItem, sumPrice } from '../store/modules/create';
+import Select from './Select';
 
 const ItemInput = styled.input`
   width: ${(props) => props.width};
@@ -10,6 +11,7 @@ const ItemInput = styled.input`
   font-size: 16px;
   margin-left: ${(props) => props.marginLeft};
   padding: 5px;
+  box-shadow: 0 2px 2px 0 rgba(30, 30, 30, 0.2);
   border-radius: 5px;
   border: none;
   :focus {
@@ -17,7 +19,7 @@ const ItemInput = styled.input`
   }
 `;
 
-const Button = styled.button`
+const Submit = styled.button`
   width: 10vw;
   height: 2.5em;
   line-height: 2em;
@@ -27,6 +29,7 @@ const Button = styled.button`
   background: orange;
   color: white;
   font-weight: bold;
+  box-shadow: -2px 2px 2px 0 rgba(30, 30, 30, 0.2);
   outline: none;
   border: none;
   border-radius: 5px;
@@ -39,18 +42,24 @@ export default function Input() {
   const resetInput = (e) => {
     e.target.value = '';
   };
-
   const itemInputRef = useRef();
   const priceInputRef = useRef();
-
   const dispatch = useDispatch();
+
+  const [dayId, setdayId] = useState('');
+
+  const selectedDay = (el) => {
+    setdayId(el);
+  };
 
   return (
     <>
+      <Select selectedDay={selectedDay} />
+
       <ItemInput
         width="30vw"
         marginLeft="6vw"
-        defaultValue="ex.철수 생일 선물"
+        placeholder="ex.철수 생일 선물"
         onFocus={(e) => resetInput(e)}
         ref={itemInputRef}
       />
@@ -58,18 +67,24 @@ export default function Input() {
       <ItemInput
         width="20vw"
         marginLeft="3vw"
-        defaultValue="ex. 20,000"
+        placeholder="ex. 20000"
         onFocus={(e) => resetInput(e)}
         ref={priceInputRef}
       />
 
-      <Button
+      <Submit
         onClick={() => {
           dispatch(
             createItem({
-              id: 1,
+              id: dayId,
               no: Math.random(),
               item: itemInputRef.current.value,
+              price: priceInputRef.current.value,
+            })
+          );
+
+          dispatch(
+            sumPrice({
               price: priceInputRef.current.value,
             })
           );
@@ -78,7 +93,7 @@ export default function Input() {
         }}
       >
         확인
-      </Button>
+      </Submit>
     </>
   );
 }

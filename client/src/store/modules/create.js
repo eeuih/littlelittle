@@ -37,14 +37,25 @@ const initState = {
       detail: [{ no: 0, item: '', price: '' }],
     },
   ],
+
+  total: '',
 };
 
 const CREATE = 'create/CREATE';
 
+const SUM = 'create/SUM';
+
 export function createItem(payload) {
-  console.log(payload);
   return {
     type: CREATE,
+    payload,
+  };
+}
+
+export function sumPrice(payload) {
+  console.log(payload);
+  return {
+    type: SUM,
     payload,
   };
 }
@@ -58,18 +69,24 @@ export default function create(state = initState, action) {
           if (el.id === action.payload.id) {
             return {
               ...el,
-              detail: {
+              detail: [
                 ...el.detail.concat({
                   no: action.payload.no,
                   item: action.payload.item,
-                  price: action.payload.price,
+                  price: action.payload.price + '원',
                 }),
-              },
+              ],
             };
           } else {
             return el;
           }
         }),
+      };
+
+    case SUM:
+      return {
+        ...state,
+        total: Number(state.total) + Number(action.payload.price),
       };
     default:
       return state;

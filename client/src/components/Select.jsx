@@ -20,7 +20,7 @@ const DropdownBody = styled.div`
   padding: 5px;
   background: white;
   border-radius: 5px;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  box-shadow: 2px 2px 2px 0 rgba(30, 30, 30, 0.2);
   margin-bottom: 0.5vh;
 `;
 
@@ -30,6 +30,7 @@ const DropDownList = styled.ul`
   position: absolute;
   background: white;
   border-radius: 5px;
+  box-shadow: 2px 2px 2px 0 rgba(30, 30, 30, 0.2);
   text-align: center;
   font-size: 16px;
 `;
@@ -49,25 +50,29 @@ const ListItem = styled.li`
   }
 `;
 
-export default function Select() {
+export default function Select({ selectedDay }) {
   const weekDay = useSelector((state) => state.create.list);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const toggling = () => setIsOpen(!isOpen);
 
   const onOptionClicked = (value) => () => {
-    setSelectedOption(value);
+    setSelectedOption(value.day);
     setIsOpen(false);
-    console.log(selectedOption);
+    //부모 컴포넌트(Input.jsx)로 값 보내는 함수
+    selectedDay(value.id);
   };
+
   return (
     <>
       <DropDownContainer>
-        <DropdownBody onClick={toggling}>{selectedOption || '일'}</DropdownBody>
+        <DropdownBody onClick={toggling}>
+          {selectedOption || '요일'}
+        </DropdownBody>
         {isOpen && (
           <DropDownList>
             {weekDay.map((option) => (
-              <ListItem onClick={onOptionClicked(option.day)} key={option.id}>
+              <ListItem onClick={onOptionClicked(option)} key={option.id}>
                 {option.day}
               </ListItem>
             ))}
