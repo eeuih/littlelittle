@@ -10,11 +10,11 @@ const TotalBg = styled.div`
 `;
 
 export default function Total() {
-  const sum = useSelector((state) => state.create.total);
+  const sum = useSelector((state) => state.crud.total);
   return (
     <>
       <TotalBg>
-        <h2> 현재까지 사용 금액은 {sum} 원입니다. </h2>
+        <h2> 현재까지 사용 금액은 {sum}원입니다. </h2>
       </TotalBg>
     </>
   );

@@ -7,6 +7,7 @@ import Total from './Total';
 
 const BackGround = styled.div`
   width: 80vw;
+  height: 100vh;
   margin: auto;
 `;
 

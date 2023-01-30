@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import create from './modules/create';
+import crud from './modules/crud';
 export default combineReducers({
-  create,
+  crud,
 });

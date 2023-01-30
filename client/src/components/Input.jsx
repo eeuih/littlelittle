@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { createItem, sumPrice } from '../store/modules/create';
+import { createItem } from '../store/modules/crud';
 import Select from './Select';
+import axios from 'axios';
 
 const ItemInput = styled.input`
   width: ${(props) => props.width};
@@ -39,18 +40,34 @@ const Submit = styled.button`
 `;
 
 export default function Input() {
-  const resetInput = (e) => {
-    e.target.value = '';
-  };
   const itemInputRef = useRef();
   const priceInputRef = useRef();
   const dispatch = useDispatch();
-
-  const [dayId, setdayId] = useState('');
-
+  const [dayId, setdayId] = useState();
   const selectedDay = (el) => {
     setdayId(el);
   };
+
+  function createData() {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/mongo/createitem',
+      data: {
+        id: dayId,
+        item: itemInputRef.current.value,
+        price: priceInputRef.current.value,
+        isContent: true,
+        withCredentials: true,
+      },
+    })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log(error.response);
+      });
+  }
 
   return (
     <>
@@ -60,7 +77,6 @@ export default function Input() {
         width="30vw"
         marginLeft="6vw"
         placeholder="ex.철수 생일 선물"
-        onFocus={(e) => resetInput(e)}
         ref={itemInputRef}
       />
 
@@ -68,7 +84,6 @@ export default function Input() {
         width="20vw"
         marginLeft="3vw"
         placeholder="ex. 20000"
-        onFocus={(e) => resetInput(e)}
         ref={priceInputRef}
       />
 
@@ -77,19 +92,14 @@ export default function Input() {
           dispatch(
             createItem({
               id: dayId,
-              no: Math.random(),
               item: itemInputRef.current.value,
               price: priceInputRef.current.value,
-            })
-          );
-
-          dispatch(
-            sumPrice({
-              price: priceInputRef.current.value,
+              isContent: true,
             })
           );
           itemInputRef.current.value = '';
           priceInputRef.current.value = '';
+          createData();
         }}
       >
         확인

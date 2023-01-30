@@ -29,9 +29,9 @@ export default function ItemList() {
       <Table>
         <TableRow>
           <TableHeader width="15%">요일</TableHeader>
-          <TableHeader width="40%">항목</TableHeader>
+          <TableHeader width="45%">항목</TableHeader>
           <TableHeader width="30%">금액</TableHeader>
-          <TableHeader width="15%"></TableHeader>
+          <TableHeader width="10%"></TableHeader>
         </TableRow>
         <Item />
       </Table>

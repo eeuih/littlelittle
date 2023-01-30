@@ -51,7 +51,7 @@ const ListItem = styled.li`
 `;
 
 export default function Select({ selectedDay }) {
-  const weekDay = useSelector((state) => state.create.list);
+  const weekDay = useSelector((state) => state.crud.list);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
   const toggling = () => setIsOpen(!isOpen);
