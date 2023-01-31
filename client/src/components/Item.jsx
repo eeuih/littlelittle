@@ -56,7 +56,7 @@ export default function Item() {
   // 수정이랑 삭제 할 때 getId, getNo 디스패치로 전달하면 됨
 
   async function mongoFetchData() {
-    const resMongoData = await fetch('http://localhost:8080/mongo/getdata');
+    const resMongoData = await fetch('http://localhost:8080/api/getdata');
     if (resMongoData.status === 200) {
       const data = await resMongoData.json();
       if (data[0].list.length !== 0) {

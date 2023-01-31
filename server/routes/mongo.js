@@ -13,8 +13,8 @@ router.get('/getdata', async (req, res) => {
   res.send(data);
 });
 
-router.post('/createitem', async (req, res) => {
-  const data = await mongoDB.createItem();
+router.post('/create', async (req, res) => {
+  const data = await mongoDB.create(req);
   res.send(data);
 });
 

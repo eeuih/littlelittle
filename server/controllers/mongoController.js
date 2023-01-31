@@ -77,11 +77,19 @@ const mongoDB = {
     return data;
   },
 
-  createItem: async (req, res) => {
+  create: async (req) => {
     const client = await _client;
     const db = client.db('littlelittle').collection('data');
-    console.log(req.body);
-    res.send('하..');
+    const result = await db.updateOne(
+      // 제대로 추가 안되는중 230131
+      { 'list.0.id': req.body.id },
+      { $push: { detail: { item: req.body.item, price: req.body.price } } }
+    );
+    if (result.acknowledged) {
+      return '업데이트 성공';
+    } else {
+      throw new Error('통신 이상');
+    }
     // const data = await db.find({id:req.body})
     // const result = await db.updateOne({ createData });
     // if (result.acknowledged) {

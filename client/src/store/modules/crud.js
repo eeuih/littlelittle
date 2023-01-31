@@ -1,59 +1,4 @@
-// const initState = {
-//   list: [
-//     {
-//       id: 0,
-//       day: '일',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-
-//     {
-//       id: 1,
-//       day: '월',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-//     {
-//       id: 2,
-//       day: '화',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-//     {
-//       id: 3,
-//       day: '수',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-//     {
-//       id: 4,
-//       day: '목',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-//     {
-//       id: 5,
-//       day: '금',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-//     {
-//       id: 6,
-//       day: '토',
-//       detail: [{ no: 0, item: '', price: '', isContent: false }],
-//     },
-//   ],
-
-//   total: '',
-// };
-
-// const totaltest = initState.list
-//   .map((el) => {
-//     const totalprice = el.detail.reduce((acc, obj) => {
-//       return Number(acc) + Number(obj.price);
-//     }, 0);
-//     return totalprice;
-//   })
-//   .reduce((acc, obj) => {
-//     return Number(acc) + Number(obj);
-//   }, 0);
-
-// initState['total'] = totaltest;
-
+import axios from 'axios';
 // 액션 타입 정의
 const INIT = 'crud/INIT';
 const CREATE = 'crud/CREATE';
@@ -69,7 +14,10 @@ export function init(payload) {
 }
 
 export function createItem(payload) {
-  //console.log(payload);
+  const request = axios
+    .post('http://localhost:8080/api/create', payload)
+    .then((res) => res.data);
+  console.log(request);
 
   return {
     type: CREATE,

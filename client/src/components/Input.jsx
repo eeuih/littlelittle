@@ -48,27 +48,6 @@ export default function Input() {
     setdayId(el);
   };
 
-  function createData() {
-    axios({
-      method: 'post',
-      url: 'http://localhost:8080/mongo/createitem',
-      data: {
-        id: dayId,
-        item: itemInputRef.current.value,
-        price: priceInputRef.current.value,
-        isContent: true,
-        withCredentials: true,
-      },
-    })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        console.log(error.response);
-      });
-  }
-
   return (
     <>
       <Select selectedDay={selectedDay} />
@@ -99,7 +78,6 @@ export default function Input() {
           );
           itemInputRef.current.value = '';
           priceInputRef.current.value = '';
-          createData();
         }}
       >
         확인
