@@ -14,10 +14,12 @@ export function init(payload) {
 }
 
 export function createItem(payload) {
-  const request = axios
+  let request = axios
     .post('http://localhost:8080/api/create', payload)
-    .then((res) => res.data);
-  console.log(request);
+    .then((res) => {
+      return res.data;
+    });
+  //res.data promise result 를 변수에 저장해서 return 으로 보내주야함
 
   return {
     type: CREATE,
@@ -46,6 +48,7 @@ const initStateEmpty = {
       day: '',
       detail: [
         {
+          no: 0,
           item: '',
           price: '',
           isContent: false,
@@ -73,6 +76,7 @@ export default function crud(state = initStateEmpty, action) {
               ...el,
               detail: [
                 ...el.detail.concat({
+                  //no: action.request.no,
                   item: action.payload.item,
                   price: action.payload.price,
                   isContent: action.payload.isContent,

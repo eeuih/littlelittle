@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { createItem } from '../store/modules/crud';
 import Select from './Select';
-import axios from 'axios';
 
 const ItemInput = styled.input`
   width: ${(props) => props.width};

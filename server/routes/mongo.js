@@ -14,8 +14,7 @@ router.get('/getdata', async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-  const data = await mongoDB.create(req);
-  res.send(data);
+  const data = await mongoDB.create(req, res);
 });
 
 module.exports = router;

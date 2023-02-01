@@ -8,6 +8,7 @@ const getWeek = (date) => {
 };
 
 const Week = getWeek(new Date());
+const Month = new Date().getMonth() + 1;
 
 const Goaltext = styled.h3`
   padding-bottom: 3vh;
@@ -16,7 +17,9 @@ const Goaltext = styled.h3`
 export default function Goal() {
   return (
     <>
-      <Goaltext>{Week}주차, 이번주 목표 금액은 입니다! </Goaltext>
+      <Goaltext>
+        {Month}월 {Week}주차, 이번주 목표 금액은 입니다!{' '}
+      </Goaltext>
     </>
   );
 }
