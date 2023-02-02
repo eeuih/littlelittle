@@ -4,6 +4,7 @@ import { init } from '../store/modules/crud';
 import styled from 'styled-components';
 import editIcon from '../edit.svg';
 import deleteIcon from '../delete.svg';
+import axios from 'axios';
 
 const TableRow = styled.div`
   display: flex;
@@ -42,18 +43,15 @@ const Icon = styled.img`
 export default function Item() {
   const list = useSelector((state) => state.crud.list);
   const dispatch = useDispatch();
-  //console.log(list);
+
   const [getId, setgetId] = useState();
   const [getNo, setgetNo] = useState();
-  const getInfo = (getId, getNo) => () => {
-    setgetId(getId.id);
-    setgetNo(getNo.no);
-  };
+  const [getIndex, setgetIndex] = useState();
 
-  // console.log(getId);
-  // console.log(getNo);
-
-  // 수정이랑 삭제 할 때 getId, getNo 디스패치로 전달하면 됨
+  function getInfo(el, detail) {
+    console.log(el);
+    console.log(detail);
+  }
 
   async function mongoFetchData() {
     const resMongoData = await fetch('http://localhost:8080/api/getdata');
@@ -70,6 +68,15 @@ export default function Item() {
   useEffect(() => {
     mongoFetchData();
   }, []);
+
+  // const getInfo = (Id, No) => () => {
+  //   var index = Id.detail.findIndex((p) => p.no == No.no);
+  //   setgetId(Id.id);
+  //   setgetNo(No.no);
+  //   setgetIndex(index);
+  // };
+
+  // 수정이랑 삭제 할 때 getId, getNo 디스패치로 전달하면 됨
 
   return (
     <>
@@ -106,15 +113,12 @@ export default function Item() {
                       <BtnWrap>
                         <Icon
                           onClick={getInfo(el, detail)}
+                          dataNo={detail.no}
                           src={editIcon}
                           alt="수정"
                         />
 
-                        <Icon
-                          onClick={getInfo(el, detail)}
-                          src={deleteIcon}
-                          alt="삭제"
-                        />
+                        <Icon onClick={getInfo} src={deleteIcon} alt="삭제" />
                       </BtnWrap>
                     ) : (
                       <BtnWrap></BtnWrap>

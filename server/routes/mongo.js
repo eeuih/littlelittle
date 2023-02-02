@@ -17,4 +17,8 @@ router.post('/create', async (req, res) => {
   const data = await mongoDB.create(req, res);
 });
 
+router.post('/delete', async (req, res) => {
+  const data = await mongoDB.delete(req, res);
+});
+
 module.exports = router;

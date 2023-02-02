@@ -46,18 +46,18 @@ const initState = {
   total: '',
 };
 
-const totaltest = initState.list
-  .map((el) => {
-    const totalprice = el.detail.reduce((acc, obj) => {
-      return Number(acc) + Number(obj.price);
-    }, 0);
-    return totalprice;
-  })
-  .reduce((acc, obj) => {
-    return Number(acc) + Number(obj);
-  }, 0);
+// const totaltest = initState.list
+//   .map((el) => {
+//     const totalprice = el.detail.reduce((acc, obj) => {
+//       return Number(acc) + Number(obj.price);
+//     }, 0);
+//     return totalprice;
+//   })
+//   .reduce((acc, obj) => {
+//     return Number(acc) + Number(obj);
+//   }, 0);
 
-initState['total'] = totaltest;
+// initState['total'] = totaltest;
 
 const mongoDB = {
   setData: async () => {
@@ -117,12 +117,39 @@ const mongoDB = {
       },
 
       function (err, data) {
-        res.send(data.value.list[req.body.id].detail.at(-1));
+        res.send(data.value);
       }
     );
     // console.log(data.value.list[req.body.id].detail.at(-1));
     // res.send(data.value.list[req.body.id]);
     //res.send(data.value.list[req.body.id].detail.at(-1).no);
+  },
+
+  delete: async (req, res) => {
+    const client = await _client;
+    const db = client.db('littlelittle').collection('data');
+    console.log(req.data);
+    res.send(true);
+    // const data = await db.findOneAndUpdate(
+    //   { 'list.id': req.body.id },
+    //   {
+    //     $pull: {
+    //       'list.$[t]': {
+    //         'detail.$[d]': { no: req.body.no },
+    //       },
+    //     },
+    //   },
+
+    //   {
+    //     arrayFilters: [{ 't.id': req.body.id, 'd.id': req.body.idx }],
+    //     returnOriginal: false,
+    //     returnDocument: 'after',
+    //   },
+    //   function (err, data) {
+    //     //console.log(data);
+    //     //res.send(data);
+    //   }
+    // );
   },
 };
 

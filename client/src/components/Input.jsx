@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { createItem } from '../store/modules/crud';
 import Select from './Select';
+import axios from 'axios';
 
 const ItemInput = styled.input`
   width: ${(props) => props.width};
@@ -67,14 +68,17 @@ export default function Input() {
 
       <Submit
         onClick={() => {
-          dispatch(
-            createItem({
+          axios
+            .post('http://localhost:8080/api/create', {
               id: dayId,
               item: itemInputRef.current.value,
               price: priceInputRef.current.value,
               isContent: true,
             })
-          );
+            .then((res) => {
+              dispatch(createItem(res.data));
+            });
+
           itemInputRef.current.value = '';
           priceInputRef.current.value = '';
         }}

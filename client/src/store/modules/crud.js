@@ -1,4 +1,3 @@
-import axios from 'axios';
 // 액션 타입 정의
 const INIT = 'crud/INIT';
 const CREATE = 'crud/CREATE';
@@ -14,13 +13,6 @@ export function init(payload) {
 }
 
 export function createItem(payload) {
-  let request = axios
-    .post('http://localhost:8080/api/create', payload)
-    .then((res) => {
-      return res.data;
-    });
-  //res.data promise result 를 변수에 저장해서 return 으로 보내주야함
-
   return {
     type: CREATE,
     payload,
@@ -70,24 +62,27 @@ export default function crud(state = initStateEmpty, action) {
     case CREATE:
       return {
         ...state,
-        list: state.list.map((el) => {
-          if (el.id === action.payload.id) {
-            return {
-              ...el,
-              detail: [
-                ...el.detail.concat({
-                  //no: action.request.no,
-                  item: action.payload.item,
-                  price: action.payload.price,
-                  isContent: action.payload.isContent,
-                }),
-              ],
-            };
-          } else {
-            return el;
-          }
-        }),
+        list: action.payload.list,
+        // .map((el) => {
+        //   if (el.id === action.payload.id) {
+        //     return {
+        //       ...el,
+        //       detail: [
+        //         ...el.detail.concat({
+        //           no: action.payload.no,
+        //           item: action.payload.item,
+        //           price: action.payload.price,
+        //           isContent: action.payload.isContent,
+        //         }),
+        //       ],
+        //     };
+        //   } else {
+        //     return el;
+        //   }
+        // }),
       };
+    case DELETE:
+      return { ...state, list: action.payload.list };
 
     default:
       return state;
