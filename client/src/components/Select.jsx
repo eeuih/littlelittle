@@ -3,15 +3,16 @@ import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const DropDownContainer = styled.div`
-  width: 6vw;
+  width: 120px;
+  margin-bottom: 10px;
   &:hover {
     cursor: pointer;
   }
-  margin-bottom: 1.5vh;
 `;
 
 const DropdownBody = styled.div`
-  width: 8vw;
+  width: 120px;
+  margin-bottom: 10px;
   height: 2em;
   line-height: 2em;
   text-align: center;
@@ -21,11 +22,21 @@ const DropdownBody = styled.div`
   background: white;
   border-radius: 5px;
   box-shadow: 2px 2px 2px 0 rgba(30, 30, 30, 0.2);
-  margin-bottom: 0.5vh;
+  &:hover {
+    background: #d0d0d0;
+    color: white;
+  }
+
+  @media screen and (max-width: 500px) {
+    width: 60px;
+    font-size: 14px;
+  }
 `;
 
 const DropDownList = styled.ul`
-  width: 8vw;
+  width: 120px;
+  max-width: 140px;
+  min-width: 30px;
   padding: 5px;
   position: absolute;
   background: white;
@@ -33,6 +44,10 @@ const DropDownList = styled.ul`
   box-shadow: 2px 2px 2px 0 rgba(30, 30, 30, 0.2);
   text-align: center;
   font-size: 16px;
+  @media screen and (max-width: 500px) {
+    width: 60px;
+    font-size: 14px;
+  }
 `;
 
 const ListItem = styled.li`

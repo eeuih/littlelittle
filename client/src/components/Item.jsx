@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { init } from '../store/modules/crud';
+import { deleteItem } from '../store/modules/crud';
 import styled from 'styled-components';
 import editIcon from '../edit.svg';
 import deleteIcon from '../delete.svg';
 import axios from 'axios';
+import Modal from './Modal';
 
 const TableRow = styled.div`
   display: flex;
@@ -38,45 +39,21 @@ const BtnWrap = styled.div`
 const Icon = styled.img`
   height: 1.8em;
   margin-left: 0.5vw;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 export default function Item() {
   const list = useSelector((state) => state.crud.list);
+  const [modal, setModal] = useState('');
+  const [modalId, setmodalId] = useState();
+  const [modalData, setModaldata] = useState();
   const dispatch = useDispatch();
 
-  const [getId, setgetId] = useState();
-  const [getNo, setgetNo] = useState();
-  const [getIndex, setgetIndex] = useState();
-
-  function getInfo(el, detail) {
-    console.log(el);
-    console.log(detail);
+  function testModal() {
+    setModal('1');
   }
-
-  async function mongoFetchData() {
-    const resMongoData = await fetch('http://localhost:8080/api/getdata');
-    if (resMongoData.status === 200) {
-      const data = await resMongoData.json();
-      if (data[0].list.length !== 0) {
-        dispatch(init(data[0]));
-      }
-    } else {
-      throw new Error('통신 이상');
-    }
-  }
-
-  useEffect(() => {
-    mongoFetchData();
-  }, []);
-
-  // const getInfo = (Id, No) => () => {
-  //   var index = Id.detail.findIndex((p) => p.no == No.no);
-  //   setgetId(Id.id);
-  //   setgetNo(No.no);
-  //   setgetIndex(index);
-  // };
-
-  // 수정이랑 삭제 할 때 getId, getNo 디스패치로 전달하면 됨
 
   return (
     <>
@@ -99,7 +76,7 @@ export default function Item() {
               {el.detail.map((detail) => {
                 return (
                   <Ul>
-                    <Li key={detail.no}>{detail.price}</Li>
+                    <Li key={detail.no}>{detail.price}원</Li>
                   </Ul>
                 );
               })}
@@ -112,13 +89,39 @@ export default function Item() {
                     {detail.isContent ? (
                       <BtnWrap>
                         <Icon
-                          onClick={getInfo(el, detail)}
-                          dataNo={detail.no}
+                          onClick={() => {
+                            testModal();
+                            setmodalId(el.id);
+                            setModaldata(detail);
+                          }}
                           src={editIcon}
                           alt="수정"
                         />
+                        {modal == '1' ? (
+                          <Modal
+                            setModal={setModal}
+                            id={modalId}
+                            content={modalData}
+                          />
+                        ) : (
+                          ''
+                        )}
 
-                        <Icon onClick={getInfo} src={deleteIcon} alt="삭제" />
+                        <Icon
+                          onClick={() => {
+                            alert('삭제하시겠습니까?');
+                            axios
+                              .post('http://localhost:8080/api/delete', {
+                                id: el.id,
+                                no: detail.no,
+                              })
+                              .then((res) => {
+                                dispatch(deleteItem(res.data));
+                              });
+                          }}
+                          src={deleteIcon}
+                          alt="삭제"
+                        />
                       </BtnWrap>
                     ) : (
                       <BtnWrap></BtnWrap>

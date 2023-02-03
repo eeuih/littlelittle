@@ -6,7 +6,7 @@ const Table = styled.div`
   border-radius: 10px;
   box-shadow: 6px 6px rgba(30, 30, 30, 0.4);
   padding: 2vh;
-  margin-bottom: 2vh;
+  margin-bottom: 20px;
 `;
 
 const TableRow = styled.div`

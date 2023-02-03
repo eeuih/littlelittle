@@ -78,6 +78,27 @@ const mongoDB = {
     return data;
   },
 
+  setGoal: async (req, res) => {
+    const client = await _client;
+    const db = client.db('littlelittle').collection('data');
+    const data = await db.findOneAndUpdate(
+      { _id: ObjectId('63db78db1a271177e80d4400') },
+
+      {
+        $set: { page: req.body.page, goal: req.body.goal },
+      },
+      {
+        //arrayFilters: [{ 't._id': ObjectId('63db78db1a271177e80d4400') }],
+        returnOriginal: false,
+        returnDocument: 'after',
+      },
+
+      function (err, data) {
+        res.send(data.value);
+      }
+    );
+  },
+
   create: async (req, res) => {
     const client = await _client;
     const db = client.db('littlelittle').collection('data');
@@ -120,44 +141,78 @@ const mongoDB = {
         res.send(data.value);
       }
     );
-    // console.log(data.value.list[req.body.id].detail.at(-1));
-    // res.send(data.value.list[req.body.id]);
-    //res.send(data.value.list[req.body.id].detail.at(-1).no);
+  },
+
+  update: async (req, res) => {
+    const client = await _client;
+    const db = client.db('littlelittle').collection('data');
+    const data = await db.findOneAndUpdate(
+      { 'list.detail.no': req.body.no },
+      {
+        $set: {
+          'list.$.detail.$[d].item': req.body.item,
+          'list.$.detail.$[d].price': req.body.price,
+        },
+      },
+      {
+        arrayFilters: [{ 'd.no': req.body.no }],
+        returnOriginal: false,
+        returnDocument: 'after',
+      },
+
+      function (err, data) {
+        res.send(data.value);
+      }
+    );
   },
 
   delete: async (req, res) => {
     const client = await _client;
     const db = client.db('littlelittle').collection('data');
-    console.log(req.data);
-    res.send(true);
-    // const data = await db.findOneAndUpdate(
-    //   { 'list.id': req.body.id },
-    //   {
-    //     $pull: {
-    //       'list.$[t]': {
-    //         'detail.$[d]': { no: req.body.no },
-    //       },
-    //     },
-    //   },
+    const data = await db.findOneAndUpdate(
+      { 'list.id': req.body.id },
+      {
+        $pull: {
+          'list.$[t].detail': {
+            no: req.body.no,
+          },
+        },
+        $set: {},
+      },
+      {
+        arrayFilters: [{ 't.id': req.body.id }],
+        returnOriginal: false,
+        returnDocument: 'after',
+      },
 
-    //   {
-    //     arrayFilters: [{ 't.id': req.body.id, 'd.id': req.body.idx }],
-    //     returnOriginal: false,
-    //     returnDocument: 'after',
-    //   },
-    //   function (err, data) {
-    //     //console.log(data);
-    //     //res.send(data);
-    //   }
-    // );
+      function (err, data) {
+        res.send(data.value);
+      }
+    );
+  },
+
+  reset: async (req, res) => {
+    const client = await _client;
+    const db = client.db('littlelittle').collection('data');
+    const data = await db.findOneAndUpdate(
+      { _id: ObjectId('63db78db1a271177e80d4400') },
+      {
+        $set: {
+          page: req.body.page,
+          goal: req.body.goal,
+          'list.$[].detail': [],
+        },
+      },
+      {
+        returnOriginal: false,
+        returnDocument: 'after',
+      },
+
+      function (err, data) {
+        res.send(data.value);
+      }
+    );
   },
 };
-
-// const result = await db.aggregate([
-//   { $project: { _id: 0, result: { $sum: 'list.$[0].detail.price' } } },
-// ]);
-// const result2 = await result.toArray();
-// console.log(result2);
-// https://www.mongodb.com/community/forums/t/how-can-i-update-nested-array-element-by-id/149857/5 몽고디비천재
 
 module.exports = mongoDB;
